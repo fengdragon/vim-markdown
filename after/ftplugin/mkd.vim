@@ -8,7 +8,7 @@
 
 func! Foldexpr_markdown(lnum)
     if (a:lnum == 1)
-        let l0 = ''
+        let l0 = 'beginning'
     else
         let l0 = getline(a:lnum-1)
     endif
@@ -17,12 +17,12 @@ func! Foldexpr_markdown(lnum)
 
     let l2 = getline(a:lnum+1)
 
-    if  l2 =~ '^==\+\s*'
+    if  l2 =~ '^==\+\s*' && l0 =~ '^\s*$'
         " next line is underlined (level 1)
         return '>1'
-    elseif l2 =~ '^--\+\s*'
+    elseif l2 =~ '^--\+\s*' && l0 =~ '^\s*$'
         " next line is underlined (level 2)
-        return '>2'
+        return '>1'
     elseif l1 =~ '^#'
         " don't include the section title in the fold
         return '-1'
